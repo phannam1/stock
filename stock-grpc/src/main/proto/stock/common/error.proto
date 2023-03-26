@@ -1,0 +1,8 @@
+syntax = "proto3";
+package stock.common;
+option java_package = "com.teecafe.stock.proto.common";
+option java_multiple_files = true;
+message StockGrpcError{
+  string code = 1;
+  string message = 2;
+}

@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package stock;
+
+import "google/protobuf/empty.proto";
+import "stock/common/error.proto";
+
+option java_package = "com.teecafe.stock.proto";
+option java_multiple_files = true;
+service StockService{
+  rpc GetAllStock(BlankRequest)returns(GetAllStockResponse){}
+  rpc GetAllUnit(BlankRequest)returns(GetAllUnitResponse){}
+  rpc SaveStock(SaveStockRequest)returns(SaveStockResponse){}
+}
+message BlankRequest{
+
+}
+
+message GetAllStockResponse{
+  message Data{
+    repeated Stock stock  =1;
+  }
+  bool success =1;
+  oneof response{
+    Data data = 2;
+    common.StockGrpcError error = 3;
+  }
+}
+message Stock{
+  int64 id =1;
+  string name =2;
+  float number =3;
+  string unit =4;
+  float price =5;
+  string create_date = 6;
+  string exp_date = 7;
+  string description = 8;
+  float money = 9;
+  string created_by = 10;
+}
+message GetAllUnitResponse{
+  message Data{
+    repeated Unit unit  =1;
+  }
+  bool success =1;
+  oneof response{
+    Data data = 2;
+    common.StockGrpcError error = 3;
+  }
+}
+message Unit{
+  int64 id =1;
+  string name_unit =2;
+}
+message SaveStockRequest{
+   Stock stock =1;
+}
+message SaveStockResponse{
+  message Data{
+    int32 stock_add =1;
+    int32 stock_add_success =2;
+    int32 stock_add_fail =3;
+  }
+  bool success =1;
+  oneof response{
+    Data data = 2;
+    common.StockGrpcError error = 3;
+  }
+}
