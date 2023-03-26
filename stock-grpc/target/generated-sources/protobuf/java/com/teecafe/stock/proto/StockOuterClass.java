@@ -64,6 +64,21 @@ public final class StockOuterClass {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_stock_SaveStockResponse_Data_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_stock_DeleteStockRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_stock_DeleteStockRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_stock_DeleteStockResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_stock_DeleteStockResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_stock_DeleteStockResponse_Data_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_stock_DeleteStockResponse_Data_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -96,14 +111,21 @@ public final class StockOuterClass {
       "Response.DataH\000\022-\n\005error\030\003 \001(\0132\034.stock.c" +
       "ommon.StockGrpcErrorH\000\032L\n\004Data\022\021\n\tstock_" +
       "add\030\001 \001(\005\022\031\n\021stock_add_success\030\002 \001(\005\022\026\n\016" +
-      "stock_add_fail\030\003 \001(\005B\n\n\010response2\322\001\n\014Sto" +
-      "ckService\022@\n\013GetAllStock\022\023.stock.BlankRe" +
-      "quest\032\032.stock.GetAllStockResponse\"\000\022>\n\nG" +
-      "etAllUnit\022\023.stock.BlankRequest\032\031.stock.G" +
-      "etAllUnitResponse\"\000\022@\n\tSaveStock\022\027.stock" +
-      ".SaveStockRequest\032\030.stock.SaveStockRespo" +
-      "nse\"\000B\033\n\027com.teecafe.stock.protoP\001b\006prot" +
-      "o3"
+      "stock_add_fail\030\003 \001(\005B\n\n\010response\"&\n\022Dele" +
+      "teStockRequest\022\020\n\010stock_id\030\001 \001(\003\"\265\001\n\023Del" +
+      "eteStockResponse\022\017\n\007success\030\001 \001(\010\022/\n\004dat" +
+      "a\030\002 \001(\0132\037.stock.DeleteStockResponse.Data" +
+      "H\000\022-\n\005error\030\003 \001(\0132\034.stock.common.StockGr" +
+      "pcErrorH\000\032!\n\004Data\022\031\n\021stock_delete_mess\030\001" +
+      " \001(\tB\n\n\010response2\232\002\n\014StockService\022@\n\013Get" +
+      "AllStock\022\023.stock.BlankRequest\032\032.stock.Ge" +
+      "tAllStockResponse\"\000\022>\n\nGetAllUnit\022\023.stoc" +
+      "k.BlankRequest\032\031.stock.GetAllUnitRespons" +
+      "e\"\000\022@\n\tSaveStock\022\027.stock.SaveStockReques" +
+      "t\032\030.stock.SaveStockResponse\"\000\022F\n\013DeleteS" +
+      "tock\022\031.stock.DeleteStockRequest\032\032.stock." +
+      "DeleteStockResponse\"\000B\033\n\027com.teecafe.sto" +
+      "ck.protoP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -171,6 +193,24 @@ public final class StockOuterClass {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_stock_SaveStockResponse_Data_descriptor,
         new java.lang.String[] { "StockAdd", "StockAddSuccess", "StockAddFail", });
+    internal_static_stock_DeleteStockRequest_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_stock_DeleteStockRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_stock_DeleteStockRequest_descriptor,
+        new java.lang.String[] { "StockId", });
+    internal_static_stock_DeleteStockResponse_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_stock_DeleteStockResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_stock_DeleteStockResponse_descriptor,
+        new java.lang.String[] { "Success", "Data", "Error", "Response", });
+    internal_static_stock_DeleteStockResponse_Data_descriptor =
+      internal_static_stock_DeleteStockResponse_descriptor.getNestedTypes().get(0);
+    internal_static_stock_DeleteStockResponse_Data_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_stock_DeleteStockResponse_Data_descriptor,
+        new java.lang.String[] { "StockDeleteMess", });
     com.google.protobuf.EmptyProto.getDescriptor();
     com.teecafe.stock.proto.common.Error.getDescriptor();
   }

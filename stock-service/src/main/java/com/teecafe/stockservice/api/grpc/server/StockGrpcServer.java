@@ -69,4 +69,24 @@ public class StockGrpcServer extends StockServiceGrpc.StockServiceImplBase {
 			throw ex;
 		}
 	}
+
+	@Override
+	public void deleteStock(DeleteStockRequest request,
+		StreamObserver<DeleteStockResponse> responseObserver) {
+		try {
+			responseObserver.onNext(stockGrpcService.deleteStock(request));
+			responseObserver.onCompleted();
+
+		}catch (Exception ex){
+			responseObserver.onNext(DeleteStockResponse.newBuilder()
+				.setSuccess(false)
+				.setError(StockGrpcError.newBuilder()
+					.setCode(HttpStatus.INTERNAL_SERVER_ERROR.toString())
+					.setMessage(ex.getMessage())
+					.build())
+				.build());
+			responseObserver.onCompleted();
+			throw ex;
+		}
+	}
 }

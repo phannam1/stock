@@ -19,7 +19,7 @@ public class StockEntity {
 	private String name;
 	@Column(name = "number",nullable = false)
 	private float number;
-	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "unit_id")
 	private UnitEntity unit;
 	@Column(name = "price",nullable = false)

@@ -11,6 +11,7 @@ service StockService{
   rpc GetAllStock(BlankRequest)returns(GetAllStockResponse){}
   rpc GetAllUnit(BlankRequest)returns(GetAllUnitResponse){}
   rpc SaveStock(SaveStockRequest)returns(SaveStockResponse){}
+  rpc DeleteStock(DeleteStockRequest)returns(DeleteStockResponse){}
 }
 message BlankRequest{
 
@@ -60,6 +61,19 @@ message SaveStockResponse{
     int32 stock_add =1;
     int32 stock_add_success =2;
     int32 stock_add_fail =3;
+  }
+  bool success =1;
+  oneof response{
+    Data data = 2;
+    common.StockGrpcError error = 3;
+  }
+}
+message DeleteStockRequest{
+int64 stock_id = 1;
+}
+message DeleteStockResponse{
+  message Data{
+    string stock_delete_mess =1;
   }
   bool success =1;
   oneof response{

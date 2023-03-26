@@ -7,6 +7,9 @@ import com.teecafe.stockservice.api.entity.UnitEntity;
 import com.teecafe.stockservice.api.grpc.service.StockGrpcService;
 import com.teecafe.stockservice.api.repository.StockRepository;
 import com.teecafe.stockservice.api.repository.UnitRepository;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Locale;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,31 +26,22 @@ public class StockGrpcServiceImpl implements StockGrpcService {
 	private final UnitRepository unitRepository;
 	@Override
 	public GetAllStockResponse getAllStock(BlankRequest request) {
-		String pattern = "dd/MM/yyyy";
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		List<StockEntity> stockEntities = stockRepository.findAllStock();
-		if(stockEntities==null ||stockEntities.size()==0){
-			return GetAllStockResponse.newBuilder().setSuccess(false)
-				.setError(StockGrpcError.newBuilder()
-					.setCode(HttpStatus.NOT_FOUND.toString())
-					.setMessage("Stock Clean")
-					.build()).build();
-		}
-
 		return GetAllStockResponse.newBuilder().setSuccess(true)
 			.setData(GetAllStockResponse.Data.newBuilder()
-				.addAllStock(stockEntities.stream().map(stock-> Stock
-					.newBuilder()
-						.setId(stock.getId())
-						.setName(stock.getName())
-						.setNumber(stock.getNumber())
-						.setUnit(stock.getUnit().getNameUnit())
-						.setPrice(stock.getPrice())
-						.setCreateDate(simpleDateFormat.format(stock.getCreatedDate()))
-						.setExpDate(simpleDateFormat.format(stock.getExpiryDate()))
-						.setDescription(stock.getDescription() == null ? "" : stock.getDescription())
-						.setMoney(stock.getPrice()*stock.getNumber())
-					.build())
+				.addAllStock(stockEntities.stream().map(stock->  Stock
+							.newBuilder()
+								.setId(stock.getId())
+								.setName(stock.getName())
+								.setNumber(stock.getNumber())
+								.setUnit(stock.getUnit().getNameUnit())
+								.setPrice(stock.getPrice())
+								.setCreateDate(stock.getCreatedDate())
+								.setExpDate(stock.getExpiryDate())
+								.setDescription(stock.getDescription() == null ? "" : stock.getDescription())
+								.setMoney(stock.getPrice()*stock.getNumber())
+							.build()
+				)
 					.collect(Collectors.toList()))
 				.build())
 			.build();
@@ -56,13 +50,7 @@ public class StockGrpcServiceImpl implements StockGrpcService {
 	@Override
 	public GetAllUnitResponse getAllUnit(BlankRequest request) {
 		List<UnitEntity> unitEntities = unitRepository.findAll();
-		if(unitEntities==null ||unitEntities.size()==0){
-			return GetAllUnitResponse.newBuilder().setSuccess(false)
-				.setError(StockGrpcError.newBuilder()
-					.setCode(HttpStatus.NOT_FOUND.toString())
-					.setMessage("Unit not found")
-					.build()).build();
-		}
+
 		return GetAllUnitResponse.newBuilder()
 			.setSuccess(true)
 			.setData(GetAllUnitResponse.Data.newBuilder()
@@ -78,8 +66,8 @@ public class StockGrpcServiceImpl implements StockGrpcService {
 
 	@Override
 	public SaveStockResponse saveStock(SaveStockRequest request) {
-		String pattern = "dd-MM-yyyy HH:mm:ss";
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		StockEntity stockEntity = new StockEntity();
 
 		if(request.hasStock()){
@@ -93,8 +81,8 @@ public class StockGrpcServiceImpl implements StockGrpcService {
 				stockEntity.setPrice(stock.getPrice());
 				stockEntity.setCreatedBy(stock.getCreatedBy());
 				stockEntity.setUpdatedBy(stock.getCreatedBy());
-				stockEntity.setCreatedDate(simpleDateFormat.format(new Date()));
-				stockEntity.setExpiryDate(stock.getExpDate());
+				stockEntity.setCreatedDate(simpleDateFormat.format(formatter.parse(stock.getCreateDate())));
+				stockEntity.setExpiryDate(simpleDateFormat.format(formatter.parse(stock.getExpDate())));
 				stockEntity.setDescription(stock.getDescription());
 				stockRepository.save(stockEntity);
 			}catch (Exception ex){
@@ -124,5 +112,26 @@ public class StockGrpcServiceImpl implements StockGrpcService {
 				.setStockAddFail(0)
 				.build())
 			.build();
+	}
+
+	@Override
+	public DeleteStockResponse deleteStock(DeleteStockRequest request) {
+		try {
+			if(request.getStockId()==0){
+				return DeleteStockResponse.newBuilder().setSuccess(false).setError(
+					StockGrpcError.newBuilder().setCode(HttpStatus.INTERNAL_SERVER_ERROR.name())
+						.setMessage(HttpStatus.BAD_REQUEST.name())).build();
+			}
+			stockRepository.deleteById(request.getStockId());
+
+		}catch (Exception ex){
+			return DeleteStockResponse.newBuilder().setSuccess(false).setError(
+				StockGrpcError.newBuilder().setCode(HttpStatus.INTERNAL_SERVER_ERROR.name())
+					.setMessage(ex.getMessage()).build()).build();
+		}
+		return DeleteStockResponse.newBuilder().setSuccess(true)
+			.setData(DeleteStockResponse.Data.newBuilder()
+				.setStockDeleteMess("Delete Stock Success")
+				.build()).build();
 	}
 }

@@ -108,6 +108,37 @@ public final class StockServiceGrpc {
     return getSaveStockMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.teecafe.stock.proto.DeleteStockRequest,
+      com.teecafe.stock.proto.DeleteStockResponse> getDeleteStockMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DeleteStock",
+      requestType = com.teecafe.stock.proto.DeleteStockRequest.class,
+      responseType = com.teecafe.stock.proto.DeleteStockResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.teecafe.stock.proto.DeleteStockRequest,
+      com.teecafe.stock.proto.DeleteStockResponse> getDeleteStockMethod() {
+    io.grpc.MethodDescriptor<com.teecafe.stock.proto.DeleteStockRequest, com.teecafe.stock.proto.DeleteStockResponse> getDeleteStockMethod;
+    if ((getDeleteStockMethod = StockServiceGrpc.getDeleteStockMethod) == null) {
+      synchronized (StockServiceGrpc.class) {
+        if ((getDeleteStockMethod = StockServiceGrpc.getDeleteStockMethod) == null) {
+          StockServiceGrpc.getDeleteStockMethod = getDeleteStockMethod =
+              io.grpc.MethodDescriptor.<com.teecafe.stock.proto.DeleteStockRequest, com.teecafe.stock.proto.DeleteStockResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DeleteStock"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.teecafe.stock.proto.DeleteStockRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.teecafe.stock.proto.DeleteStockResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new StockServiceMethodDescriptorSupplier("DeleteStock"))
+              .build();
+        }
+      }
+    }
+    return getDeleteStockMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -177,6 +208,13 @@ public final class StockServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSaveStockMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void deleteStock(com.teecafe.stock.proto.DeleteStockRequest request,
+        io.grpc.stub.StreamObserver<com.teecafe.stock.proto.DeleteStockResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getDeleteStockMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -200,6 +238,13 @@ public final class StockServiceGrpc {
                 com.teecafe.stock.proto.SaveStockRequest,
                 com.teecafe.stock.proto.SaveStockResponse>(
                   this, METHODID_SAVE_STOCK)))
+          .addMethod(
+            getDeleteStockMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                com.teecafe.stock.proto.DeleteStockRequest,
+                com.teecafe.stock.proto.DeleteStockResponse>(
+                  this, METHODID_DELETE_STOCK)))
           .build();
     }
   }
@@ -241,6 +286,14 @@ public final class StockServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getSaveStockMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void deleteStock(com.teecafe.stock.proto.DeleteStockRequest request,
+        io.grpc.stub.StreamObserver<com.teecafe.stock.proto.DeleteStockResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getDeleteStockMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -276,6 +329,13 @@ public final class StockServiceGrpc {
     public com.teecafe.stock.proto.SaveStockResponse saveStock(com.teecafe.stock.proto.SaveStockRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getSaveStockMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.teecafe.stock.proto.DeleteStockResponse deleteStock(com.teecafe.stock.proto.DeleteStockRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getDeleteStockMethod(), getCallOptions(), request);
     }
   }
 
@@ -316,11 +376,20 @@ public final class StockServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getSaveStockMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.teecafe.stock.proto.DeleteStockResponse> deleteStock(
+        com.teecafe.stock.proto.DeleteStockRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getDeleteStockMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_ALL_STOCK = 0;
   private static final int METHODID_GET_ALL_UNIT = 1;
   private static final int METHODID_SAVE_STOCK = 2;
+  private static final int METHODID_DELETE_STOCK = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -350,6 +419,10 @@ public final class StockServiceGrpc {
         case METHODID_SAVE_STOCK:
           serviceImpl.saveStock((com.teecafe.stock.proto.SaveStockRequest) request,
               (io.grpc.stub.StreamObserver<com.teecafe.stock.proto.SaveStockResponse>) responseObserver);
+          break;
+        case METHODID_DELETE_STOCK:
+          serviceImpl.deleteStock((com.teecafe.stock.proto.DeleteStockRequest) request,
+              (io.grpc.stub.StreamObserver<com.teecafe.stock.proto.DeleteStockResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -415,6 +488,7 @@ public final class StockServiceGrpc {
               .addMethod(getGetAllStockMethod())
               .addMethod(getGetAllUnitMethod())
               .addMethod(getSaveStockMethod())
+              .addMethod(getDeleteStockMethod())
               .build();
         }
       }

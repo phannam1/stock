@@ -9,4 +9,6 @@ public interface StockGrpcService {
 	GetAllUnitResponse getAllUnit(BlankRequest request);
 
 	SaveStockResponse saveStock(SaveStockRequest request);
+
+    DeleteStockResponse deleteStock(DeleteStockRequest request);
 }
